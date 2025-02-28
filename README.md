@@ -1,63 +1,54 @@
 README for Kiosk System Setup Script
 Overview
 
-This script sets up a simple kiosk environment on a Linux system. It configures the system to automatically log in as the kiosk user, start the X server, and launch Chromium in kiosk mode to display a predefined web page. The system is configured to bypass the GRUB boot timeout and to automatically launch the kiosk interface after booting.
+This script configures a Linux system to run as a kiosk. It sets up an automatic login for the kiosk user, starts the X server, and launches Chromium in kiosk mode to display a predefined web page. The system also disables the GRUB boot menu and boots directly into the kiosk interface.
 Prerequisites
 
-    A fresh installation of a Debian-based Linux distribution (such as Ubuntu).
-    A user account named kiosk (ensure the user exists before running the script).
+    A fresh installation of a Debian-based Linux distribution (e.g., Ubuntu).
+    A user account named kiosk (ensure this user exists before running the script).
     sudo or root privileges to run administrative commands.
 
 What the Script Does
 
-    Comment Out CD-ROM Lines in /etc/apt/sources.list:
-    It ensures that any lines referencing cdrom: in the APT sources list are commented out, so package updates do not try to access the CD-ROM.
+    Remove CD-ROM as APT Source: It comments out lines in /etc/apt/sources.list that reference cdrom:, so package updates do not try to access the CD-ROM.
 
-    Update the System:
-    The script updates the package lists to ensure the system is up-to-date.
+    Update the System: The script updates the APT package list to ensure the system is up-to-date.
 
-    Install Necessary Packages:
-    It installs essential packages for the kiosk setup, including:
+    Install Necessary Packages: It installs the following essential packages:
         xorg: The X Window System.
         xinit: A utility for starting the X server.
-        chromium: The Chromium browser for kiosk use.
+        chromium: The Chromium browser for kiosk mode.
 
-    Create Systemd Service Override for Getty Service:
-    The script creates a custom systemd service configuration for the getty@tty1 service, enabling automatic login for the kiosk user at the first terminal (tty1).
+    Create Systemd Service Override for Getty Service: The script creates a custom systemd service configuration to enable automatic login for the kiosk user at the first terminal (tty1).
 
-    Configure Autologin for the kiosk User:
-    It edits the systemd service configuration to allow the kiosk user to automatically log in without requiring a password.
+    Configure Autologin for the kiosk User: It modifies the systemd service configuration to allow the kiosk user to log in automatically without a password.
 
-    Configure X11 to Start Chromium in Kiosk Mode:
-    It adds the startx command to the .bashrc file of the kiosk user, ensuring the X server starts upon login. It also creates a custom .xinitrc file, which configures the screen resolution and launches Chromium in full-screen kiosk mode.
+    Configure X11 to Start Chromium in Kiosk Mode: The script adds the startx command to the .bashrc file of the kiosk user, ensuring the X server starts upon login. It also creates a custom .xinitrc file to configure the screen resolution and launch Chromium in full-screen kiosk mode.
 
-    Update the GRUB Configuration:
-    The script disables the GRUB boot menu timeout by setting GRUB_TIMEOUT=0, ensuring the system boots directly to the kiosk interface.
+    Update the GRUB Configuration: It disables the GRUB boot menu timeout by setting GRUB_TIMEOUT=0, ensuring the system boots directly to the kiosk interface.
 
-    Update GRUB Configuration:
-    It runs update-grub to apply the new GRUB settings.
+    Update GRUB: The script runs update-grub to apply the new GRUB settings.
 
-    Reboot the System:
-    Finally, the system is rebooted, and upon restart, the kiosk setup should be active.
+    Reboot the System: The system is rebooted automatically, and upon restart, the kiosk setup will be active.
 
 How to Use the Script
 Step 1: Remove the CD-ROM as an APT Source
 
-To ensure the system doesn't attempt to access the CD-ROM during package updates, comment out the lines that reference the CD-ROM:
+To prevent the system from attempting to access the CD-ROM during package updates, comment out the lines in /etc/apt/sources.list that reference the CD-ROM:
 
     Option 1: Run the following command:
 
 sed -i '/cdrom:/s/^/#/' /etc/apt/sources.list
 
-Option 2: Alternatively, you can manually edit the file using nano:
+Option 2: Alternatively, manually edit the file with nano:
 
     nano /etc/apt/sources.list
 
-    Then, put a # at the start of the lines that include cdrom:.
+    Then, place a # at the start of any lines that include cdrom:.
 
 Step 2: Install wget
 
-Install wget to be able to download the script:
+Ensure that wget is installed, as it is required to download the script:
 
 apt install wget
 
@@ -69,7 +60,7 @@ wget https://raw.githubusercontent.com/NathanLouth/DebianKiosk/refs/heads/main/i
 
 Step 4: Make the Script Executable
 
-Change the script permissions to make it executable:
+Change the script's permissions to make it executable:
 
 chmod +x install.sh
 
@@ -79,24 +70,19 @@ Execute the script with sudo to start the kiosk setup process:
 
 sudo ./install.sh
 
-The script will automatically complete the setup, including logging in as the kiosk user, configuring the kiosk mode, and rebooting the system. Upon restart, the system will boot directly into the kiosk interface.
-
+The script will complete the setup, automatically logging in as the kiosk user, starting the X server, and launching Chromium in kiosk mode. Once the script finishes, the system will reboot. After the reboot, the kiosk interface will start automatically.
 Troubleshooting
 
-    Chromium Not Launching: Ensure the kiosk user has access to the necessary files and that the xinit and Chromium commands are installed correctly.
-    Screen Resolution Issues: If the screen resolution does not display correctly, adjust the xrandr settings in the .xinitrc file.
-    Autologin Not Working: Ensure the getty@tty1.service.d/override.conf file was created successfully and the kiosk user is configured correctly in the systemd service.
+    Chromium Not Launching: If Chromium does not launch, ensure that the kiosk user has the appropriate permissions and that xinit and Chromium are properly installed.
+    Screen Resolution Issues: If the screen resolution does not appear correctly, modify the xrandr settings in the .xinitrc file.
+    Autologin Not Working: Verify that the getty@tty1.service.d/override.conf file is created correctly and that the kiosk user is configured to log in automatically.
 
 Additional Customizations
 
-    You can change the web page that Chromium loads by modifying the URL in the .xinitrc file.
-    If you want a different screen resolution or settings for the kiosk, modify the xrandr line in the .xinitrc file.
-    To modify the behavior of the autologin feature, you can adjust the systemd service configuration at /etc/systemd/system/getty@tty1.service.d/override.conf.
+    To change the web page Chromium displays, modify the URL in the .xinitrc file.
+    Adjust the screen resolution or other display settings by modifying the xrandr command in the .xinitrc file.
+    To customize the behavior of autologin, you can modify the systemd service configuration at /etc/systemd/system/getty@tty1.service.d/override.conf.
 
 License
 
 This script is provided as-is and can be freely used and modified. No warranty or guarantee is provided.
-chmod +x ./install.sh
-
-Run script:
-./install.sh
