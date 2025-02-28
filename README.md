@@ -4,7 +4,7 @@
 This script configures a Linux system to run as a kiosk. It sets up an automatic login for the `kiosk` user, starts the X server, and launches Chromium in kiosk mode to display a predefined web page. The system also disables the GRUB boot menu and boots directly into the kiosk interface.
 
 ## Prerequisites
-- A fresh installation of a Debian Linux with no GUI installed.
+- A fresh installation of Debian Linux with no GUI installed.
 - A user account named `kiosk` (ensure this user exists before running the script).
 - root privileges to run administrative commands.
 
@@ -20,6 +20,7 @@ This script configures a Linux system to run as a kiosk. It sets up an automatic
    - `xorg`: The X Window System.
    - `xinit`: A utility for starting the X server.
    - `chromium`: The Chromium browser for kiosk mode.
+   - `alsa-utils`: Audio utilities including amixer for volume control.
 
 4. **Create Systemd Service Override for Getty Service:**
    The script creates a custom systemd service configuration to enable automatic login for the `kiosk` user at the first terminal (tty1).
@@ -28,7 +29,10 @@ This script configures a Linux system to run as a kiosk. It sets up an automatic
    It modifies the systemd service configuration to allow the `kiosk` user to log in automatically without a password.
 
 6. **Configure X11 to Start Chromium in Kiosk Mode:**
-   The script adds the `startx` command to the `.bashrc` file of the `kiosk` user, ensuring the X server starts upon login. It also creates a custom `.xinitrc` file to configure the screen resolution and launch Chromium in full-screen kiosk mode.
+   The script adds the `startx` command to the `.bashrc` file of the `kiosk` user, ensuring the X server starts upon login. It also creates a custom `.xinitrc` file to configure:
+   - Screen resolution
+   - Launch Chromium in full-screen kiosk mode
+   - Set system volume to maximum using amixer
 
 7. **Update the GRUB Configuration:**
    It disables the GRUB boot menu timeout by setting `GRUB_TIMEOUT=0`, ensuring the system boots directly to the kiosk interface.
@@ -106,6 +110,11 @@ Verify that the getty@tty1.service.d/override.conf file is created correctly and
 * To change the web page Chromium displays, modify the URL in the .xinitrc file (/home/kiosk/.xinitrc).
 * Adjust the screen resolution or other display settings by modifying the xrandr command in the .xinitrc file (/home/kiosk/.xinitrc).
 * To customize the behavior of autologin, you can modify the systemd service configuration at `/etc/systemd/system/getty@tty1.service.d/override.conf`.
+* To adjust the system volume, modify the amixer command in the .xinitrc file. The current setting uses card 0 (first sound card) and sets the master channel to 100%:
+```bash
+amixer -c 0 sset Master 100%
+```
+You can change the card number (-c 0) or volume percentage (100%) as needed.
 
 ## License
 MIT License
