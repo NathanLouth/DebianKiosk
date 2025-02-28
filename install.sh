@@ -7,7 +7,7 @@ sed -i '/cdrom:/s/^[^#]/#/' /etc/apt/sources.list
 apt update -y
 
 # 3. Install necessary packages
-apt install -y xorg xinit chromium
+apt install -y xorg xinit chromium alsa-utils
 
 # 4. Create the directory for the systemd service override
 mkdir -p /etc/systemd/system/getty@tty1.service.d/
@@ -31,6 +31,9 @@ sleep 3
 xrandr --output Virtual-1 --mode 1920x1080
 
 sleep 2
+
+#amixer -c 0 sset Master toggle
+amixer -c 0 sset Master 100%
 
 SCREEN_RESOLUTION=\$(xrandr | grep '*' | awk '{print \$1}')
 
