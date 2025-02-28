@@ -32,7 +32,6 @@ xrandr --output Virtual-1 --mode 1920x1080
 
 sleep 2
 
-#amixer -c 0 sset Master toggle
 amixer -c 0 sset Master 100%
 
 SCREEN_RESOLUTION=\$(xrandr | grep '*' | awk '{print \$1}')
