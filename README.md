@@ -121,7 +121,7 @@ If audio is not working in Chromium:
    ```bash
    mixer -c 1 sset Master 100%
    
-   AUDIODEV=hw:1.0 chromium --no-sandbox --kiosk --window-position=0,0 --window-size=\$WIDTH,\$HEIGHT "https://example.com"
+   AUDIODEV=hw:1.0 chromium --no-sandbox --kiosk --window-position=0,0 --window-size=$WIDTH,$HEIGHT "https://example.com"
    ```
    Replace "hw:1.0" & "-c 1" with your actual sound card identifier from step 1.
 
