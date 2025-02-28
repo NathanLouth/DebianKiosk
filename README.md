@@ -98,6 +98,9 @@ The script will complete the setup, automatically logging in as the kiosk user, 
 
 ## Troubleshooting
 
+### Startx Error
+If startx fails to launch, try running the script again. This will reinstall the necessary packages.
+
 ### Chromium Not Launching
 If Chromium does not launch, ensure that the kiosk user has the appropriate permissions and that xinit and Chromium are properly installed.
 
