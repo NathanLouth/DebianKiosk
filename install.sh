@@ -44,5 +44,11 @@ EOL
 chown kiosk:kiosk /home/kiosk/.xinitrc
 chmod +x /home/kiosk/.xinitrc
 
-# 9. Reboot the system
+# 9. Modify the GRUB configuration file
+sudo sed -i 's/^GRUB_TIMEOUT=[0-9]*$/GRUB_TIMEOUT=0/' /etc/default/grub
+
+# 10. Update GRUB to apply the changes
+sudo update-grub
+
+# 11. Reboot the system
 reboot
