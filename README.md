@@ -120,8 +120,9 @@ If audio is not working in Chromium:
 2. Modify your .xinitrc file to specify the correct audio device before launching Chromium:
    ```bash
    AUDIODEV=hw:1.0 chromium --no-sandbox --kiosk --window-position=0,0 --window-size=\$WIDTH,\$HEIGHT "https://example.com"
+   mixer -c 1 sset Master 100%
    ```
-   Replace hw:1.0 with your actual sound card identifier from step 1.
+   Replace "hw:1.0" & "-c 1" with your actual sound card identifier from step 1.
 
 ## Additional Customizations
 
