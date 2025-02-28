@@ -39,7 +39,7 @@ SCREEN_RESOLUTION=\$(xrandr | grep '*' | awk '{print \$1}')
 WIDTH=\$(echo \$SCREEN_RESOLUTION | cut -d 'x' -f 1)
 HEIGHT=\$(echo \$SCREEN_RESOLUTION | cut -d 'x' -f 2)
 
-chromium --no-sandbox --kiosk --window-position=0,0 --window-size=\$WIDTH,\$HEIGHT "https://www.bbc.co.uk/news"
+chromium --no-sandbox --kiosk --window-position=0,0 --window-size=\$WIDTH,\$HEIGHT "https://example.com"
 EOL
 
 # 8. Make .xinitrc owned by the kiosk user and executable
