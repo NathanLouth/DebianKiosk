@@ -1,44 +1,44 @@
 # Kiosk System Setup Script
 
 ## Overview
-This script configures a Linux system to run as a kiosk. It sets up an automatic login for the `kiosk` user, starts the X server, and launches Chromium in kiosk mode to display a predefined web page. The system also disables the GRUB boot menu and boots directly into the kiosk interface.
+This script configures a Linux system to run as a kiosk. It sets up an automatic login for the kiosk user, starts the X server, and launches Chromium in kiosk mode to display a predefined web page. The system also disables the GRUB boot menu and boots directly into the kiosk interface.
 
 ## Prerequisites
 - A fresh installation of Debian Linux with no GUI installed.
-- A user account named `kiosk` (ensure this user exists before running the script).
+- A user account named kiosk (ensure this user exists before running the script).
 - root privileges to run administrative commands.
 
 ## What the Script Does
 1. **Remove CD-ROM as APT Source:**
-   It comments out lines in `/etc/apt/sources.list` that reference `cdrom:`, so package updates do not try to access the CD-ROM.
+   It comments out lines in /etc/apt/sources.list that reference cdrom:, so package updates do not try to access the CD-ROM.
 
 2. **Update the System:**
    The script updates the APT package list to ensure the system is up-to-date.
 
 3. **Install Necessary Packages:**
    It installs the following essential packages:
-   - `xorg`: The X Window System.
-   - `xinit`: A utility for starting the X server.
-   - `chromium`: The Chromium browser for kiosk mode.
-   - `alsa-utils`: Audio utilities including amixer for volume control.
+   - xorg: The X Window System.
+   - xinit: A utility for starting the X server.
+   - chromium: The Chromium browser for kiosk mode.
+   - alsa-utils: Audio utilities including amixer for volume control.
 
 4. **Create Systemd Service Override for Getty Service:**
-   The script creates a custom systemd service configuration to enable automatic login for the `kiosk` user at the first terminal (tty1).
+   The script creates a custom systemd service configuration to enable automatic login for the kiosk user at the first terminal (tty1).
 
-5. **Configure Autologin for the `kiosk` User:**
-   It modifies the systemd service configuration to allow the `kiosk` user to log in automatically without a password.
+5. **Configure Autologin for the kiosk User:**
+   It modifies the systemd service configuration to allow the kiosk user to log in automatically without a password.
 
 6. **Configure X11 to Start Chromium in Kiosk Mode:**
-   The script adds the `startx` command to the `.bashrc` file of the `kiosk` user, ensuring the X server starts upon login. It also creates a custom `.xinitrc` file to configure:
+   The script adds the startx command to the .bashrc file of the kiosk user, ensuring the X server starts upon login. It also creates a custom .xinitrc file to configure:
    - Screen resolution
    - Launch Chromium in full-screen kiosk mode
    - Set system volume to maximum using amixer
 
 7. **Update the GRUB Configuration:**
-   It disables the GRUB boot menu timeout by setting `GRUB_TIMEOUT=0`, ensuring the system boots directly to the kiosk interface.
+   It disables the GRUB boot menu timeout by setting GRUB_TIMEOUT=0, ensuring the system boots directly to the kiosk interface.
 
 8. **Update GRUB:**
-   The script runs `update-grub` to apply the new GRUB settings.
+   The script runs update-grub to apply the new GRUB settings.
 
 9. **Reboot the System:**
    The system is rebooted automatically, and upon restart, the kiosk setup will be active.
@@ -48,7 +48,7 @@ This script configures a Linux system to run as a kiosk. It sets up an automatic
 ### Note: You must be logged in as the root user
 
 ### Step 1: Remove the CD-ROM as an APT Source
-To prevent the system from attempting to access the CD-ROM during package updates, comment out the lines in `/etc/apt/sources.list` that reference the CD-ROM:
+To prevent the system from attempting to access the CD-ROM during package updates, comment out the lines in /etc/apt/sources.list that reference the CD-ROM:
 
 ```bash
 sed -i '/cdrom:/s/^/#/' /etc/apt/sources.list
@@ -110,15 +110,30 @@ If the screen resolution does not appear correctly, modify the xrandr settings i
 ### Autologin Not Working
 Verify that the getty@tty1.service.d/override.conf file is created correctly and that the kiosk user is configured to log in automatically.
 
+### Audio Issues
+If audio is not working in Chromium:
+1. First, identify your available sound cards:
+   ```bash
+   cat /proc/asound/cards
+   ```
+   
+2. Modify your .xinitrc file to specify the correct audio device before launching Chromium:
+   ```bash
+   AUDIODEV=hw:1.0 chromium --no-sandbox --kiosk --window-position=0,0 --window-size=\$WIDTH,\$HEIGHT "https://example.com"
+   ```
+   Replace hw:1.0 with your actual sound card identifier from step 1.
+
 ## Additional Customizations
 
 * To change the web page Chromium displays, modify the URL in the .xinitrc file (/home/kiosk/.xinitrc).
 * Adjust the screen resolution or other display settings by modifying the xrandr command in the .xinitrc file (/home/kiosk/.xinitrc).
-* To customize the behavior of autologin, you can modify the systemd service configuration at `/etc/systemd/system/getty@tty1.service.d/override.conf`.
+* To customize the behavior of autologin, you can modify the systemd service configuration at /etc/systemd/system/getty@tty1.service.d/override.conf.
 * To adjust the system volume, modify the amixer command in the .xinitrc file. The current setting uses card 0 (first sound card) and sets the master channel to 100%:
+
 ```bash
 amixer -c 0 sset Master 100%
 ```
+
 You can change the card number (-c 0) or volume percentage (100%) as needed.
 
 ## License
