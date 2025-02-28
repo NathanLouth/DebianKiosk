@@ -112,12 +112,12 @@ Verify that the getty@tty1.service.d/override.conf file is created correctly and
 
 ### Audio Issues
 If audio is not working in Chromium:
-1. First, identify your available sound cards:
+1. First, identify available sound cards:
    ```bash
-   cat /proc/asound/cards
+   aplay -l
    ```
    
-2. Modify your .xinitrc file to specify the correct audio device before launching Chromium:
+2. Modify /home/kiosk/.xinitrc file to specify the correct audio device before launching Chromium:
    ```bash
    mixer -c 1 sset Master 100%
    
