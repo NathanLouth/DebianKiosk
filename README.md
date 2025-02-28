@@ -1,4 +1,4 @@
-# README for Kiosk System Setup Script
+# Kiosk System Setup Script
 
 ## Overview
 This script configures a Linux system to run as a kiosk. It sets up an automatic login for the `kiosk` user, starts the X server, and launches Chromium in kiosk mode to display a predefined web page. The system also disables the GRUB boot menu and boots directly into the kiosk interface.
