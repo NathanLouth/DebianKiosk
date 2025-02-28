@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 1. Comment out lines in /etc/apt/sources.list that include "cdrom:"
-sed -i '/cdrom:/s/^/#/' /etc/apt/sources.list
+sed -i '/cdrom:/s/^[^#]/#/' /etc/apt/sources.list
 
 # 2. Update the system
 apt update -y
