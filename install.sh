@@ -28,7 +28,7 @@ cat > /home/kiosk/.xinitrc <<EOL
 
 sleep 3
 
-xrandr --output $(xrandr | grep " connected " | awk '{ print$1 }' | head -n 1) --mode 1920x1080
+xrandr --output \$(xrandr | grep " connected " | awk '{ print$1 }' | head -n 1) --mode 1920x1080
 
 sleep 2
 
