@@ -148,13 +148,14 @@ If audio isn't working:
   
 * To set what audio output to use edit `/etc/asound.conf` you can find audio information running the command `aplay -l`
   
-* To adjust the system volume, modify the amixer command in the .xinitrc file. The current setting uses card 0 (first sound card) and sets the master channel to 100%:
+* To adjust the system volume, modify the amixer command in the .xinitrc file. The current setting uses card 0 (first sound card) and sets the master channel to 100%.
+You can change the card number (-c 0) or volume percentage (100%) as needed.
 
 ```bash
 amixer -c 0 sset Master 100%
 ```
 
-You can change the card number (-c 0) or volume percentage (100%) as needed.
+* To hide the mouse edit `/home/kiosk/.bashrc` change `startx` to `startx -- -nocursor`
 
 ## License
 MIT License
