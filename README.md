@@ -136,7 +136,12 @@ If audio isn't working:
 
 ## Additional Customizations
 
-* To change the web page Chromium displays, modify the URL in the .xinitrc file (/home/kiosk/.xinitrc).
+* To change the web page Chromium displays, modify the URL in the .xinitrc file (/home/kiosk/.xinitrc). By default the page is set to `https://example.com`
+
+* To make Chromium open using incognito mode or show the url bar you can edit the following chromium flags in the .xinitrc file (/home/kiosk/.xinitrc)
+  `--no-sandbox`
+  `--kiosk`
+  `--incognito`
   
 * Adjust the screen resolution or other display settings by modifying the xrandr command in the .xinitrc file (/home/kiosk/.xinitrc).
   
