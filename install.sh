@@ -52,7 +52,6 @@ while pgrep -x "chromium" > /dev/null; do
 done
 
 systemctl reboot
-
 EOL
 
 # 8. Make asound.conf for audio settings
