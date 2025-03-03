@@ -120,20 +120,17 @@ If the screen resolution does not appear correctly, modify the xrandr settings i
 ### Autologin Not Working
 Verify that the getty@tty1.service.d/override.conf file is created correctly and that the kiosk user is configured to log in automatically.
 
-### Audio Issues
-If audio is not working in Chromium:
-1. First, identify available sound cards:
+### Audio Problems
+If audio isn't working:
+2. get audio device(s) info:
    ```bash
    aplay -l
    ```
+1. Verify ALSA configuration in `/etc/asound.conf` edit card and device numbers as needed.
    
-2. Modify /home/kiosk/.xinitrc file to specify the correct audio device before launching Chromium:
+3. Check volume levels:
    ```bash
-   mixer -c 1 sset Master 100%
-   
-   AUDIODEV=hw:1.0 chromium --no-sandbox --kiosk --window-position=0,0 --window-size=$WIDTH,$HEIGHT "https://example.com"
-   ```
-   Replace "hw:1.0" & "-c 1" with your actual sound card identifier from step 1.
+   amixer -c 0 sset Master unmute
 
 ## Additional Customizations
 
