@@ -56,7 +56,7 @@ SCREEN_RESOLUTION=\$(xrandr | grep '*' | awk '{print \$1}')
 WIDTH=\$(echo \$SCREEN_RESOLUTION | cut -d 'x' -f 1)
 HEIGHT=\$(echo \$SCREEN_RESOLUTION | cut -d 'x' -f 2)
 
-google-chrome-stable --no-startup-window --kiosk --window-position=0,0 --window-size=\$WIDTH,\$HEIGHT "https://example.com"
+google-chrome-stable --kiosk --window-position=0,0 --window-size=\$WIDTH,\$HEIGHT "https://example.com"
 EOL
 
 # 12. Make asound.conf for audio settings
