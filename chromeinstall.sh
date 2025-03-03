@@ -19,7 +19,7 @@ echo deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.
 apt update -y
 
 # 7. Install google-chrome-stable
-apt install google-chrome-stable
+apt install -y google-chrome-stable
 
 # 8. Create the directory for the systemd service override
 mkdir -p /etc/systemd/system/getty@tty1.service.d/
