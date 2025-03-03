@@ -46,6 +46,13 @@ WIDTH=\$(echo \$SCREEN_RESOLUTION | cut -d 'x' -f 1)
 HEIGHT=\$(echo \$SCREEN_RESOLUTION | cut -d 'x' -f 2)
 
 chromium --kiosk --window-position=0,0 --window-size=\$WIDTH,\$HEIGHT "https://example.com"
+
+while pgrep -x "chromium" > /dev/null; do
+    sleep 10
+done
+
+systemctl reboot
+
 EOL
 
 # 8. Make asound.conf for audio settings
