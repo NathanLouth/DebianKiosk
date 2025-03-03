@@ -34,13 +34,18 @@ This script configures a Linux system to run as a kiosk. It sets up an automatic
    - Launch Chromium in full-screen kiosk mode
    - Set system volume to maximum using amixer
 
-7. **Update the GRUB Configuration:**
+7. **Display Settings Configuration**
+   - Disables screen saver and blanking with `xset s off` and `xset s noblank`
+   - Prevents DPMS (Energy Star) features with `xset -dpms`
+   - These settings ensure continuous operation without display interruptions
+
+8. **Update the GRUB Configuration:**
    It disables the GRUB boot menu timeout by setting GRUB_TIMEOUT=0, ensuring the system boots directly to the kiosk interface.
 
-8. **Update GRUB:**
+9. **Update GRUB:**
    The script runs update-grub to apply the new GRUB settings.
 
-9. **Reboot the System:**
+10. **Reboot the System:**
    The system is rebooted automatically, and upon restart, the kiosk setup will be active.
 
 ## How to Use the Script
