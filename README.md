@@ -139,6 +139,7 @@ If audio isn't working:
 * To change the web page Chromium displays, modify the URL in the .xinitrc file (/home/kiosk/.xinitrc).
 * Adjust the screen resolution or other display settings by modifying the xrandr command in the .xinitrc file (/home/kiosk/.xinitrc).
 * To customize the behavior of autologin, you can modify the systemd service configuration at /etc/systemd/system/getty@tty1.service.d/override.conf.
+* To set what audio output to use edit `/etc/asound.conf` you can find audio information running the command `aplay -l`
 * To adjust the system volume, modify the amixer command in the .xinitrc file. The current setting uses card 0 (first sound card) and sets the master channel to 100%:
 
 ```bash
