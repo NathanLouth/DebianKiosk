@@ -47,15 +47,18 @@ HEIGHT=\$(echo \$SCREEN_RESOLUTION | cut -d 'x' -f 2)
 chromium --no-sandbox --kiosk --window-position=0,0 --window-size=\$WIDTH,\$HEIGHT "https://example.com"
 EOL
 
-# 8. Make .xinitrc owned by the kiosk user and executable
+# 8. Make asound.conf for audio settings
+echo -e "defaults.pcm.card 0\ndefaults.pcm.device 0" | sudo tee /etc/asound.conf > /dev/null
+
+# 9. Make .xinitrc owned by the kiosk user and executable
 chown kiosk:kiosk /home/kiosk/.xinitrc
 chmod +x /home/kiosk/.xinitrc
 
-# 9. Modify the GRUB configuration file
+# 10. Modify the GRUB configuration file
 sed -i 's/^GRUB_TIMEOUT=[0-9]*$/GRUB_TIMEOUT=0/' /etc/default/grub
 
-# 10. Update GRUB to apply the changes
+# 11. Update GRUB to apply the changes
 update-grub
 
-# 11. Reboot the system
+# 12. Reboot the system
 reboot
