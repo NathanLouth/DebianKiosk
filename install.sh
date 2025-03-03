@@ -30,6 +30,10 @@ sleep 3
 
 xrandr --output \$(xrandr | grep " connected " | awk '{ print$1 }' | head -n 1) --mode 1920x1080
 
+xset s off
+xset -dpms
+xset s noblank
+
 sleep 2
 
 amixer -c 0 sset Master 100%
