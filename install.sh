@@ -20,6 +20,7 @@ ExecStart=-/sbin/agetty --autologin kiosk --noclear %I \$TERM
 EOL
 
 # 6. Add "startx" to the end of /home/kiosk/.bashrc if it isn't already
+grep -qxF "startx" /home/kiosk/.bashrc || echo "sleep 5" >> /home/kiosk/.bashrc
 grep -qxF "startx" /home/kiosk/.bashrc || echo "startx" >> /home/kiosk/.bashrc
 
 # 7. Create the .xinitrc file for the kiosk user
