@@ -122,10 +122,12 @@ Verify that the getty@tty1.service.d/override.conf file is created correctly and
 
 ### Audio Problems
 If audio isn't working:
+
 2. get audio device(s) info:
    ```bash
    aplay -l
    ```
+
 1. Verify ALSA configuration in `/etc/asound.conf` edit card and device numbers as needed.
    
 3. Check volume levels:
