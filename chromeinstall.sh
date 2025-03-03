@@ -32,6 +32,7 @@ ExecStart=-/sbin/agetty --autologin kiosk --noclear %I \$TERM
 EOL
 
 # 10. Add "sleep 5" & "startx" to the end of /home/kiosk/.bashrc if it isn't already
+grep -qxF "startx" /home/kiosk/.bashrc || echo "clear" >> /home/kiosk/.bashrc
 grep -qxF "startx" /home/kiosk/.bashrc || echo "sleep 5" >> /home/kiosk/.bashrc
 grep -qxF "startx" /home/kiosk/.bashrc || echo "startx" >> /home/kiosk/.bashrc
 
