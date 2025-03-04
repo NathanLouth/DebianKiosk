@@ -187,12 +187,13 @@ If audio isn't working:
    ```
 ### Screen Tearing
 If you are getting screen Tearing and using an Intel Integrated GPU create file `/etc/X11/xorg.conf.d/20-intel.conf` and add the following contents:
-`Section "Device"
+```bash
+Section "Device"
   Identifier "Intel Graphics"
   Driver "intel"
   Option "TearFree" "true"
 EndSection
-EOL`
+```
 
 ## Additional Customizations
 
