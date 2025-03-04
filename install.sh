@@ -1,32 +1,30 @@
 #!/bin/bash
 
-# Check if argument was provided
-if [ $# -eq 0 ]; then
-    BROWSER="chromium"
-elif [ $# -ne 1 ]; then
-    echo "Usage: $0 [browser]"
-    echo "Where browser is either 'chrome' or 'chromium'"
-    echo "(Default: chromium)"
-    exit 1
-fi
+# Default browser setting
+BROWSER="chromium"
 
-# If argument was provided, validate it
-if [ $# -eq 1 ]; then
-    case ${1,,} in
-        chrome|chromium) 
+# Parse arguments
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --browser)
+            if [[ ! "$2" =~ ^(chrome|chromium)$ ]]; then
+                echo "Invalid browser specified. Must be either 'chrome' or 'chromium'"
+                exit 1
+            fi
             # Set google-chrome-stable for chrome option
-            if [ "$1" == "chrome" ]; then
+            if [[ "$2" == "chrome" ]]; then
                 BROWSER="google-chrome-stable"
             else
-                BROWSER=$1
+                BROWSER="$2"
             fi
+            shift 2
             ;;
-        *) 
-            echo "Invalid browser specified. Must be 'chrome' or 'chromium'"
+        *)
+            echo "Usage: $0 [--browser chrome/chromium]"
             exit 1
-        ;;
+            ;;
     esac
-fi
+done
 
 # Comment out lines in /etc/apt/sources.list that include "cdrom:"
 sed -i '/cdrom:/s/^[^#]/#/' /etc/apt/sources.list
@@ -35,7 +33,7 @@ sed -i '/cdrom:/s/^[^#]/#/' /etc/apt/sources.list
 apt update -y
 
 case $BROWSER in
-    chrome)
+    google-chrome-stable)
         # Install necessary packages (chrome)
         apt install -y xorg xinit alsa-utils software-properties-common apt-transport-https ca-certificates curl
         
