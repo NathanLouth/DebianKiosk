@@ -74,7 +74,7 @@ while [[ $# -gt 0 ]]; do
             ;;
             
         *)
-            echo "Usage: $0 [--card X] [--device X] [--browser X] [--url X] [--nourl]" >&2
+            echo "Usage: $0 [--card X] [--device X] [--browser X] [--url X] [--nourl] [--incognito] [--kiosk]" >&2
             exit 1
             ;;
     esac
@@ -166,7 +166,7 @@ chmod +x /home/kiosk/.xinitrc
 
 # Apply Screen Tearing Fix
 if [ "$SCREEN_TEARING" == "AMD" ]; then
-cat > /etc/X11/xorg.conf.d/20-AMD.conf <<EOL
+cat > /etc/X11/xorg.conf.d/20-ScreenTearing.conf <<EOL
 Section "Device"
   Identifier "AMD Graphics"
   Driver "amdgpu"
@@ -174,13 +174,17 @@ Section "Device"
 EndSection
 EOL
 elif [ "$SCREEN_TEARING" == "Intel" ]; then
-cat > /etc/X11/xorg.conf.d/20-intel.conf <<EOL
+cat > /etc/X11/xorg.conf.d/20-ScreenTearing.conf <<EOL
 Section "Device"
   Identifier "Intel Graphics"
   Driver "intel"
   Option "TearFree" "true"
 EndSection
 EOL
+else
+    if [ -f "/etc/X11/xorg.conf.d/20-ScreenTearing.conf" ]; then
+        rm -f "/etc/X11/xorg.conf.d/20-ScreenTearing.conf"
+    fi
 fi
 
 # Update GRUB configuration
