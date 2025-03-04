@@ -164,6 +164,25 @@ EOL
 chown kiosk:kiosk /home/kiosk/.xinitrc
 chmod +x /home/kiosk/.xinitrc
 
+# Apply Screen Tearing Fix
+if [ "$SCREEN_TEARING" == "AMD" ]; then
+cat > /etc/X11/xorg.conf.d/20-AMD.conf <<EOL
+Section "Device"
+  Identifier "AMD Graphics"
+  Driver "amdgpu"
+  Option "TearFree" "true"
+EndSection
+EOL
+elif [ "$SCREEN_TEARING" == "Intel" ]; then
+cat > /etc/X11/xorg.conf.d/20-intel.conf <<EOL
+Section "Device"
+  Identifier "Intel Graphics"
+  Driver "intel"
+  Option "TearFree" "true"
+EndSection
+EOL
+fi
+
 # Update GRUB configuration
 sed -i 's/^GRUB_TIMEOUT=[0-9]*$/GRUB_TIMEOUT=0/' /etc/default/grub
 update-grub
