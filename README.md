@@ -188,7 +188,7 @@ If audio isn't working:
 ### Screen Tearing
 If you are having screen tearing issues create file `/etc/X11/xorg.conf.d/20-intel.conf` and add the following contents:
 
-Intel:
+for Intel GPUs use:
 ```bash
 Section "Device"
   Identifier "Intel Graphics"
@@ -197,7 +197,7 @@ Section "Device"
 EndSection
 ```
 
-AMD:
+For AMD GPUs use:
 ```bash
 Section "Device"
   Identifier "AMD Graphics"
