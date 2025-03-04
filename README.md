@@ -130,6 +130,12 @@ The script supports the following optional command-line arguments for customizin
     --nourl
         Don't use default url of https://example.com and open on the chrome(ium) new tab page
 
+    --incognito
+        launch browser using incognito mode
+        
+    --kiosk
+        launch browser in kiosk mode (hides url bar)
+
 If no browser, audio card, or audio device is specified, they default to Chromium, 0, and 0, respectively.
 
 ## Example Usage
