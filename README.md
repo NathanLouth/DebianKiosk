@@ -123,6 +123,12 @@ The script supports the following optional command-line arguments for customizin
         Specify which browser to use. Valid options are:
             chrome (will install Google Chrome)
             chromium (will install Chromium)
+            
+    --url
+        Specify the URL to display in kiosk mode. Encloses the URL in quotes.
+
+    --nourl
+        Don't use default url of https://example.com and open on the chrome(ium) new tab page
 
 If no browser, audio card, or audio device is specified, they default to Chromium, 0, and 0, respectively.
 
