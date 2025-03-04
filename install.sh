@@ -42,7 +42,7 @@ while [[ $# -gt 0 ]]; do
             ;;
             
         --url)
-            URL="\"$2\""
+            URL="$2"
             shift 2
             ;;
             
