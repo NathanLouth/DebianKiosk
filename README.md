@@ -104,7 +104,7 @@ chmod +x install.sh
 Execute the script with sudo to start the kiosk setup process:
 
 ```bash
-sudo ./install.sh
+./install.sh
 ```
 
 The script will complete the setup, automatically logging in as the kiosk user, starting the X server, and launching Chromium in kiosk mode. Once the script finishes, the system will reboot. After the reboot, the kiosk interface will start automatically.
