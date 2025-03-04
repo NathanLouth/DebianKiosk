@@ -116,7 +116,7 @@ xset s noblank
 
 sleep 2
 
-amixer -c 0 sset Master 100%
+amixer -c $CARD sset Master 100%
 
 SCREEN_RESOLUTION=\$(xrandr | grep '*' | awk '{print \$1}')
 
