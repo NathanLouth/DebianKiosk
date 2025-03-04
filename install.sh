@@ -12,7 +12,7 @@ fi
 
 # If argument was provided, validate it
 if [ $# -eq 1 ]; then
-    case $1 in
+    case ${1,,} in
         chrome|chromium) BROWSER=$1 ;;
         *) 
             echo "Invalid browser specified. Must be 'chrome' or 'chromium'"
