@@ -43,18 +43,18 @@ This script configures a Linux system to run as a kiosk. It sets up an automatic
 8. **Audio Configuration**
    - Creates `/etc/asound.conf` for consistent audio device setup
    - Ensures reliable audio functionality across reboots
-   - 
+
 9. **Fixes Screen Tearing on Intel Graphics:**
    Sets Xorg option TearFree for Intel Graphics
 
 10. **Update the GRUB Configuration:**
-   It disables the GRUB boot menu timeout by setting GRUB_TIMEOUT=0, ensuring the system boots directly to the kiosk interface.
+    It disables the GRUB boot menu timeout by setting GRUB_TIMEOUT=0, ensuring the system boots directly to the kiosk interface.
 
 11. **Update GRUB:**
-   The script runs update-grub to apply the new GRUB settings.
+    The script runs update-grub to apply the new GRUB settings.
 
 12. **Reboot the System:**
-   The system is rebooted automatically, and upon restart, the kiosk setup will be active.
+    The system is rebooted automatically, and upon restart, the kiosk setup will be active.
 
 ## How to Use the Script
 
@@ -104,10 +104,53 @@ chmod +x install.sh
 Execute the script with sudo to start the kiosk setup process:
 
 ```bash
-./install.sh
+sudo ./install.sh
 ```
 
 The script will complete the setup, automatically logging in as the kiosk user, starting the X server, and launching Chromium in kiosk mode. Once the script finishes, the system will reboot. After the reboot, the kiosk interface will start automatically.
+
+## Command-Line Arguments
+
+The script supports the following optional command-line arguments for customizing the kiosk setup:
+
+    --card X
+        Set the audio card number. The value of X should be a number.
+
+    --device X
+        Set the audio device number. The value of X should be a number.
+
+    --browser X
+        Specify which browser to use. Valid options are:
+            chrome (will install Google Chrome)
+            chromium (will install Chromium)
+
+If no browser is specified, it defaults to chromium.
+
+## Example Usage
+
+Default setup:
+
+```bash
+sudo ./install.sh
+```
+
+Set custom audio card and device:
+
+```bash
+sudo ./install.sh --card 1 --device 0
+```
+
+Choose Chrome as the browser:
+
+```bash
+sudo ./install.sh --browser chrome
+```
+
+Set both a custom audio card and browser to Chromium:
+
+```bash
+sudo ./install.sh --card 1 --device 0 --browser chromium
+```
 
 ## Troubleshooting
 
@@ -126,16 +169,16 @@ Verify that the getty@tty1.service.d/override.conf file is created correctly and
 ### Audio Problems
 If audio isn't working:
 
-2. get audio device(s) info:
+1. Get audio device(s) info:
    ```bash
    aplay -l
    ```
-
-1. Verify ALSA configuration in `/etc/asound.conf` edit card and device numbers as needed.
+2. Verify ALSA configuration in `/etc/asound.conf` edit card and device numbers as needed.
    
 3. Check volume levels:
    ```bash
    amixer -c 0 sset Master unmute
+   ```
 
 ## Additional Customizations
 
@@ -143,7 +186,7 @@ If audio isn't working:
 
 * To change the web page Chromium displays, modify the URL in the .xinitrc file (/home/kiosk/.xinitrc). By default the page is set to `https://example.com`
 
-* To make Chromium open using incognito mode or show the url bar you can edit the following chromium flags in the .xinitrc file (/home/kiosk/.xinitrc)
+* To make Chromium open using incognito mode or show the url bar you can edit the following chromium flags in the .xinitrc file (/home/kiosk/.xinitrc):
   `--kiosk`
   `--incognito`
   
@@ -154,7 +197,6 @@ If audio isn't working:
 * To set what audio output to use edit `/etc/asound.conf` you can find audio information running the command `aplay -l`
   
 * To adjust the system volume, modify the amixer command in the .xinitrc file. The current setting uses card 0 (first sound card) and sets the master channel to 100%.
-You can change the card number (-c 0) or volume percentage (100%) as needed.
 
 ```bash
 amixer -c 0 sset Master 100%
