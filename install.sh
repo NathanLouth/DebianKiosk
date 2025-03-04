@@ -2,7 +2,7 @@
 
 # Default browser & audio setting
 BROWSER="chromium"
-URL="https://example.com"
+URL="\"https://example.com\""
 CARD="0"
 DEVICE="0"
 
@@ -42,7 +42,7 @@ while [[ $# -gt 0 ]]; do
             ;;
             
         --url)
-            URL="$2"
+            URL="\"$2\""
             shift 2
             ;;
             
@@ -123,7 +123,7 @@ SCREEN_RESOLUTION=\$(xrandr | grep '*' | awk '{print \$1}')
 WIDTH=\$(echo \$SCREEN_RESOLUTION | cut -d 'x' -f 1)
 HEIGHT=\$(echo \$SCREEN_RESOLUTION | cut -d 'x' -f 2)
 
-$BROWSER --kiosk --window-position=0,0 --window-size=\$WIDTH,\$HEIGHT "$URL"
+$BROWSER --kiosk --window-position=0,0 --window-size=\$WIDTH,\$HEIGHT $URL
 
 while pgrep -x "$BROWSER" > /dev/null; do
     sleep 10
