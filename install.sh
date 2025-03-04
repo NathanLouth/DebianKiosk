@@ -1,11 +1,12 @@
 #!/bin/bash
 
-# Default browser & audio setting
+# Default browser, audio setting & screen tearing fix
 BROWSER="chromium"
 BROWSER_FLAGS=""
 URL="\"https://example.com\""
 CARD="0"
 DEVICE="0"
+SCREEN_TEARING=""
 
 # Parse command-line arguments
 while [[ $# -gt 0 ]]; do
