@@ -44,7 +44,7 @@ This script configures a Linux system to run as a kiosk. It sets up an automatic
    - Creates `/etc/asound.conf` for consistent audio device setup
    - Ensures reliable audio functionality across reboots
    - 
-9. **Fixes Screen Tearing on Intel Graphics**
+9. **Fixes Screen Tearing on Intel Graphics:**
    Sets Xorg option TearFree for Intel Graphics
 
 10. **Update the GRUB Configuration:**
