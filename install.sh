@@ -13,7 +13,14 @@ fi
 # If argument was provided, validate it
 if [ $# -eq 1 ]; then
     case ${1,,} in
-        chrome|chromium) BROWSER=$1 ;;
+        chrome|chromium) 
+            # Set google-chrome-stable for chrome option
+            if [ "$1" == "chrome" ]; then
+                BROWSER="google-chrome-stable"
+            else
+                BROWSER=$1
+            fi
+            ;;
         *) 
             echo "Invalid browser specified. Must be 'chrome' or 'chromium'"
             exit 1
