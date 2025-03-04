@@ -133,7 +133,7 @@ systemctl reboot
 EOL
 
 # Make asound.conf for audio settings
-cat > /home/kiosk/.asoundrc <<EOL
+cat > /etc/asound.conf <<EOL
 defaults.pcm.card $CARD
 defaults.pcm.device $DEVICE
 EOL
