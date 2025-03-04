@@ -52,7 +52,7 @@ while [[ $# -gt 0 ]]; do
             ;;
             
         *)
-            echo "Usage: $0 [--card X] [--device X] [--browser X] [--url Y] [--nourl]" >&2
+            echo "Usage: $0 [--card X] [--device X] [--browser X] [--url X] [--nourl]" >&2
             exit 1
             ;;
     esac
