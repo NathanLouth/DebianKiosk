@@ -55,17 +55,29 @@ systemctl reboot
 EOL
 
 # 8. Make asound.conf for audio settings
-echo -e "defaults.pcm.card 0\ndefaults.pcm.device 0" | sudo tee /etc/asound.conf > /dev/null
+cat > /home/kiosk/.xinitrc <<EOL
+defaults.pcm.card 0
+defaults.pcm.device 0
+EOL
 
-# 9. Make .xinitrc owned by the kiosk user and executable
+# 9. Fix screen tearing on intel graphics
+cat > /etc/X11/xorg.conf.d/20-intel.conf <<EOL
+Section "Device"
+    Identifier "Intel Graphics"
+    Driver "intel"
+    Option "TearFree" "true"
+EndSection
+EOL
+
+# 10. Make .xinitrc owned by the kiosk user and executable
 chown kiosk:kiosk /home/kiosk/.xinitrc
 chmod +x /home/kiosk/.xinitrc
 
-# 10. Modify the GRUB configuration file
+# 11. Modify the GRUB configuration file
 sed -i 's/^GRUB_TIMEOUT=[0-9]*$/GRUB_TIMEOUT=0/' /etc/default/grub
 
-# 11. Update GRUB to apply the changes
+# 12. Update GRUB to apply the changes
 update-grub
 
-# 12. Reboot the system
+# 13. Reboot the system
 reboot
