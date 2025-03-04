@@ -1,21 +1,25 @@
 #!/bin/bash
 
 # Check if argument was provided
-if [ $# -ne 1 ]; then
-    echo "Usage: $0 <browser>"
+if [ $# -eq 0 ]; then
+    BROWSER="chromium"
+elif [ $# -ne 1 ]; then
+    echo "Usage: $0 [browser]"
     echo "Where browser is either 'chrome' or 'chromium'"
+    echo "(Default: chromium)"
     exit 1
 fi
 
-# Validate browser choice
-case $1 in
-    chrome|chromium) BROWSER=$1 ;;
-    *) 
-        echo "Invalid browser specified. Must be 'chrome' or 'chromium'"
-        exit 1
-    ;;
-esac
-
+# If argument was provided, validate it
+if [ $# -eq 1 ]; then
+    case $1 in
+        chrome|chromium) BROWSER=$1 ;;
+        *) 
+            echo "Invalid browser specified. Must be 'chrome' or 'chromium'"
+            exit 1
+        ;;
+    esac
+fi
 
 # Comment out lines in /etc/apt/sources.list that include "cdrom:"
 sed -i '/cdrom:/s/^[^#]/#/' /etc/apt/sources.list
