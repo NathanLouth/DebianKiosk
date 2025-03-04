@@ -138,15 +138,6 @@ defaults.pcm.card $CARD
 defaults.pcm.device $DEVICE
 EOL
 
-# Fix screen tearing on intel graphics
-cat > /etc/X11/xorg.conf.d/20-intel.conf <<EOL
-Section "Device"
-  Identifier "Intel Graphics"
-  Driver "modesetting"
-  Option "TearFree" "true"
-EndSection
-EOL
-
 # Make .xinitrc owned by the kiosk user and executable
 chown kiosk:kiosk /home/kiosk/.xinitrc
 chmod +x /home/kiosk/.xinitrc
