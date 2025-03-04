@@ -44,16 +44,16 @@ This script configures a Linux system to run as a kiosk. It sets up an automatic
    - Creates `/etc/asound.conf` for consistent audio device setup
    - Ensures reliable audio functionality across reboots
    - 
-9 **Fixes Screen Tearing on Intel Graphics**
+9. **Fixes Screen Tearing on Intel Graphics**
    Sets Xorg option TearFree for Intel Graphics
 
-9. **Update the GRUB Configuration:**
+10. **Update the GRUB Configuration:**
    It disables the GRUB boot menu timeout by setting GRUB_TIMEOUT=0, ensuring the system boots directly to the kiosk interface.
 
-10. **Update GRUB:**
+11. **Update GRUB:**
    The script runs update-grub to apply the new GRUB settings.
 
-11. **Reboot the System:**
+12. **Reboot the System:**
    The system is rebooted automatically, and upon restart, the kiosk setup will be active.
 
 ## How to Use the Script
