@@ -74,7 +74,7 @@ while [[ $# -gt 0 ]]; do
             ;;
             
         *)
-            echo "Usage: $0 [--card X] [--device X] [--browser X] [--url X] [--nourl] [--incognito] [--kiosk]" >&2
+            echo "Usage: $0 [--card X] [--device X] [--browser X] [--url X] [--nourl] [--incognito] [--kiosk] [--amd-st] [--intel-st]" >&2
             exit 1
             ;;
     esac
