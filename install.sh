@@ -62,6 +62,16 @@ while [[ $# -gt 0 ]]; do
             BROWSER_FLAGS="$BROWSER_FLAGS --kiosk"
             shift
             ;;
+
+        --amd-st)
+            SCREEN_TEARING="AMD"
+            shift
+            ;;
+        
+        --intel-st)
+            SCREEN_TEARING="Intel"
+            shift
+            ;;
             
         *)
             echo "Usage: $0 [--card X] [--device X] [--browser X] [--url X] [--nourl]" >&2
