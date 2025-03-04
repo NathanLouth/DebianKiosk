@@ -1,14 +1,31 @@
 #!/bin/bash
 
-# Default browser setting
+# Default browser & audio setting
 BROWSER="chromium"
-
-# Parse arguments
+CARD="0"
+DEVICE="0"
+# Parse command-line arguments
 while [[ $# -gt 0 ]]; do
     case "$1" in
+        --card)
+            if ! [[ "$2" =~ ^[0-9]+$ ]]; then
+                echo "Error: CARD must be a number" >&2
+                exit 1
+            fi
+            CARD="$2"
+            shift 2
+            ;;
+        --device)
+            if ! [[ "$2" =~ ^[0-9]+$ ]]; then
+                echo "Error: DEVICE must be a number" >&2
+                exit 1
+            fi
+            DEVICE="$2"
+            shift 2
+            ;;
         --browser)
             if [[ ! "$2" =~ ^(chrome|chromium)$ ]]; then
-                echo "Invalid browser specified. Must be either 'chrome' or 'chromium'"
+                echo "Invalid browser specified. Must be either 'chrome' or 'chromium'" >&2
                 exit 1
             fi
             # Set google-chrome-stable for chrome option
@@ -20,7 +37,7 @@ while [[ $# -gt 0 ]]; do
             shift 2
             ;;
         *)
-            echo "Usage: $0 [--browser chrome/chromium]"
+            echo "Usage: $0 [--card X] [--device X] [--browser X]" >&2
             exit 1
             ;;
     esac
@@ -102,8 +119,8 @@ EOL
 
 # Make asound.conf for audio settings
 cat > /home/kiosk/.asoundrc <<EOL
-defaults.pcm.card 0
-defaults.pcm.device 0
+defaults.pcm.card $CARD
+defaults.pcm.device $DEVICE
 EOL
 
 # Fix screen tearing on intel graphics
