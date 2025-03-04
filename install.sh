@@ -4,6 +4,7 @@
 BROWSER="chromium"
 CARD="0"
 DEVICE="0"
+
 # Parse command-line arguments
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -15,6 +16,7 @@ while [[ $# -gt 0 ]]; do
             CARD="$2"
             shift 2
             ;;
+            
         --device)
             if ! [[ "$2" =~ ^[0-9]+$ ]]; then
                 echo "Error: DEVICE must be a number" >&2
@@ -23,6 +25,7 @@ while [[ $# -gt 0 ]]; do
             DEVICE="$2"
             shift 2
             ;;
+            
         --browser)
             if [[ ! "$2" =~ ^(chrome|chromium)$ ]]; then
                 echo "Invalid browser specified. Must be either 'chrome' or 'chromium'" >&2
@@ -36,6 +39,7 @@ while [[ $# -gt 0 ]]; do
             fi
             shift 2
             ;;
+            
         *)
             echo "Usage: $0 [--card X] [--device X] [--browser X]" >&2
             exit 1
