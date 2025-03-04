@@ -2,7 +2,7 @@
 
 # Default browser & audio setting
 BROWSER="chromium"
-BROWSER_FLAGS="--kiosk"
+BROWSER_FLAGS=""
 URL="\"https://example.com\""
 CARD="0"
 DEVICE="0"
@@ -49,6 +49,16 @@ while [[ $# -gt 0 ]]; do
             
         --nourl)
             URL=""
+            shift
+            ;;
+            
+        --incognito)
+            BROWSER_FLAGS="$BROWSER_FLAGS --incognito"
+            shift
+            ;;
+        
+        --kiosk)
+            BROWSER_FLAGS="$BROWSER_FLAGS --kiosk"
             shift
             ;;
             
