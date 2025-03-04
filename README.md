@@ -186,11 +186,22 @@ If audio isn't working:
    amixer -c 0 sset Master unmute
    ```
 ### Screen Tearing
-If you are having screen tearing issues and using an Intel Integrated GPU create file `/etc/X11/xorg.conf.d/20-intel.conf` and add the following contents:
+If you are having screen tearing issues create file `/etc/X11/xorg.conf.d/20-intel.conf` and add the following contents:
+
+Intel:
 ```bash
 Section "Device"
   Identifier "Intel Graphics"
   Driver "intel"
+  Option "TearFree" "true"
+EndSection
+```
+
+AMD:
+```bash
+Section "Device"
+  Identifier "AMD Graphics"
+  Driver "amdgpu"
   Option "TearFree" "true"
 EndSection
 ```
