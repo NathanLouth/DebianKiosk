@@ -2,6 +2,7 @@
 
 # Default browser & audio setting
 BROWSER="chromium"
+URL="https://example.com"
 CARD="0"
 DEVICE="0"
 
@@ -40,8 +41,13 @@ while [[ $# -gt 0 ]]; do
             shift 2
             ;;
             
+        --url)
+            URL="$2"
+            shift 2
+            ;;
+            
         *)
-            echo "Usage: $0 [--card X] [--device X] [--browser X]" >&2
+            echo "Usage: $0 [--card X] [--device X] [--browser X] [--url Y]" >&2
             exit 1
             ;;
     esac
@@ -112,7 +118,7 @@ SCREEN_RESOLUTION=\$(xrandr | grep '*' | awk '{print \$1}')
 WIDTH=\$(echo \$SCREEN_RESOLUTION | cut -d 'x' -f 1)
 HEIGHT=\$(echo \$SCREEN_RESOLUTION | cut -d 'x' -f 2)
 
-$BROWSER --kiosk --window-position=0,0 --window-size=\$WIDTH,\$HEIGHT "https://example.com"
+$BROWSER --kiosk --window-position=0,0 --window-size=\$WIDTH,\$HEIGHT "$URL"
 
 while pgrep -x "$BROWSER" > /dev/null; do
     sleep 10
