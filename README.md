@@ -136,6 +136,12 @@ The script supports the following optional command-line arguments for customizin
     --kiosk
         launch browser in kiosk mode (hides url bar)
 
+    --amd-st
+        Apply screen tearing fix for AMD GPU
+
+    --intel-st
+        Apply screen tearing fix for Intel GPU
+        
 If no browser, audio card, or audio device is specified, they default to Chromium, 0, and 0, respectively.
 
 ## Example Usage
