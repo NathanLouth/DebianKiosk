@@ -124,7 +124,7 @@ The script supports the following optional command-line arguments for customizin
             chrome (will install Google Chrome)
             chromium (will install Chromium)
 
-If no browser is specified, it defaults to chromium.
+If no browser, audio card, or audio device is specified, they default to Chromium, 0, and 0, respectively.
 
 ## Example Usage
 
