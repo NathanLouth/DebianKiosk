@@ -3,7 +3,7 @@
 # Script Settings/Arguments
 BROWSER="chromium"
 BROWSER_FLAGS=""
-URL=" https://example.com"
+URL=""
 CARD="0"
 DEVICE="0"
 SCREEN_TEARING=" --set TearFree on"
@@ -57,11 +57,6 @@ while [[ $# -gt 0 ]]; do
             fi
             SCREEN_RESOLUTION="$2"
             shift 2
-            ;;
-            
-        --no-url)
-            URL=""
-            shift
             ;;
             
         --incognito)
