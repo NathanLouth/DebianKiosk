@@ -123,11 +123,14 @@ The script supports the following optional command-line arguments for customizin
         Specify which browser to use. Valid options are:
             chrome (will install Google Chrome)
             chromium (will install Chromium)
+    
+    --screen
+        Set the screen resolution e.g 1920x1080 (default is 1920x1080)
             
     --url
         Specify the URL to display in kiosk mode. Encloses the URL in quotes.
 
-    --nourl
+    --no-url
         Don't use default url of https://example.com and open on the chrome(ium) new tab page
 
     --incognito
@@ -135,6 +138,9 @@ The script supports the following optional command-line arguments for customizin
         
     --kiosk
         launch browser in kiosk mode (hides url bar)
+
+    --no-cursor
+        Hides the mouse cursor 
 
     --amd-st
         Apply screen tearing fix for AMD GPU
@@ -168,6 +174,30 @@ Set both a custom audio card and browser to Chromium:
 
 ```bash
 sudo ./install.sh --card 1 --device 0 --browser chromium
+```
+
+Set specific screen resolution:
+
+```bash
+sudo ./install.sh --screen 3840x2160
+```
+
+Launch Chrome in kiosk mode with incognito and custom URL:
+
+```bash
+sudo ./install.sh --browser chrome --kiosk --incognito --url "https://example.org"
+```
+
+Configure AMD GPU with optimal settings:
+
+```bash
+sudo ./install.sh --browser chrome --amd-st --kiosk --screen 1920x1080
+```
+
+Minimal setup without default URL:
+
+```bash
+sudo ./install.sh --nourl
 ```
 
 ## Troubleshooting
