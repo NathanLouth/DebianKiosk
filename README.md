@@ -155,49 +155,49 @@ If no browser, audio card, or audio device is specified, they default to Chromiu
 Default setup:
 
 ```bash
-sudo ./install.sh
+./install.sh
 ```
 
 Set custom audio card and device:
 
 ```bash
-sudo ./install.sh --card 1 --device 0
+./install.sh --card 1 --device 0
 ```
 
 Choose Chrome as the browser:
 
 ```bash
-sudo ./install.sh --browser chrome
+./install.sh --browser chrome
 ```
 
 Set both a custom audio card and browser to Chromium:
 
 ```bash
-sudo ./install.sh --card 1 --device 0 --browser chromium
+./install.sh --card 1 --device 0 --browser chromium
 ```
 
 Set specific screen resolution:
 
 ```bash
-sudo ./install.sh --screen 3840x2160
+./install.sh --screen 3840x2160
 ```
 
 Launch Chrome in kiosk mode with incognito and custom URL:
 
 ```bash
-sudo ./install.sh --browser chrome --kiosk --incognito --url "https://example.org"
+./install.sh --browser chrome --kiosk --incognito --url "https://example.org"
 ```
 
-Configure AMD GPU with optimal settings:
+Configure AMD GPU with screen tearing fix:
 
 ```bash
-sudo ./install.sh --browser chrome --amd-st --kiosk --screen 1920x1080
+./install.sh --browser chrome --amd-st --kiosk --screen 1920x1080
 ```
 
-Minimal setup without default URL:
+Minimal setup without default URL & hidden cursor:
 
 ```bash
-sudo ./install.sh --nourl
+./install.sh --nourl --no-cursor
 ```
 
 ## Troubleshooting
