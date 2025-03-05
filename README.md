@@ -114,21 +114,21 @@ The script will complete the setup, automatically logging in as the kiosk user, 
 The script supports the following optional command-line arguments for customizing the kiosk setup:
 
     --card X
-        Set the audio card number. The value of X should be a number. (default is 0)
+        Set the audio card number. The value of X should be a number. (Default is 0)
 
     --device X
-        Set the audio device number. The value of X should be a number. (default is 0)
+        Set the audio device number. The value of X should be a number. (Default is 0)
 
     --browser X
         Specify which browser to use. Valid options are:
-            chrome (will install Google Chrome)
-            chromium (will install Chromium) (default option)
+            chrome (Google Chrome)
+            chromium (Default)
     
     --screen
-        Set the screen resolution e.g 1920x1080 (default is 1920x1080)
+        Set the screen resolution e.g 1920x1080 (Default is 1920x1080)
             
     --url
-        Specify the URL to display in kiosk mode. Encloses the URL in quotes.
+        Specify the URL to display in kiosk mode. Encloses the URL in quotes. (Default New Tab Page)
 
     --incognito
         launch browser using incognito mode
