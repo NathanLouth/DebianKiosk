@@ -80,7 +80,7 @@ while [[ $# -gt 0 ]]; do
             shift
             ;;
 
-      -no-cursor)
+        --no-cursor)
             STARTXCMD="startx -- -nocursor"
             shift
             ;;
