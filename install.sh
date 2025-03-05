@@ -3,7 +3,7 @@
 # Default browser, audio setting & screen tearing fix
 BROWSER="chromium"
 BROWSER_FLAGS=""
-URL="\"https://example.com\""
+URL=" https://example.com"
 CARD="0"
 DEVICE="0"
 SCREEN_TEARING=""
@@ -46,7 +46,7 @@ while [[ $# -gt 0 ]]; do
             ;;
             
         --url)
-            URL="$2"
+            URL=" $2"
             shift 2
             ;;
      
@@ -171,7 +171,7 @@ SCREEN_RESOLUTION=\$(xrandr | grep '*' | awk '{print \$1}')
 WIDTH=\$(echo \$SCREEN_RESOLUTION | cut -d 'x' -f 1)
 HEIGHT=\$(echo \$SCREEN_RESOLUTION | cut -d 'x' -f 2)
 
-$BROWSER $BROWSER_FLAGS --window-position=0,0 --window-size=\$WIDTH,\$HEIGHT ${URL:+$URL}
+$BROWSER $BROWSER_FLAGS --window-position=0,0 --window-size=\$WIDTH,\$HEIGHT$URL
 
 while pgrep -x "$BROWSER" > /dev/null; do
     sleep 10
