@@ -8,7 +8,7 @@ CARD="0"
 DEVICE="0"
 SCREEN_TEARING=""
 SCREEN_RESOLUTION="1920x1080"
-NO_CURSOR=false
+STARTXCMD="startx"
 
 # Parse command-line arguments
 while [[ $# -gt 0 ]]; do
@@ -49,8 +49,13 @@ while [[ $# -gt 0 ]]; do
             URL="$2"
             shift 2
             ;;
+     
+       --screen)
+            #SCREEN_RES="$2"
+            shift 2
+            ;;
             
-        --nourl)
+        --no-url)
             URL=""
             shift
             ;;
@@ -72,6 +77,11 @@ while [[ $# -gt 0 ]]; do
         
         --intel-st)
             SCREEN_TEARING="Intel"
+            shift
+            ;;
+
+      -no-cursor)
+            STARTXCMD="startx -- -nocursor"
             shift
             ;;
             
@@ -121,10 +131,20 @@ ExecStart=
 ExecStart=-/sbin/agetty --autologin kiosk --noclear %I \$TERM
 EOL
 
-# Add "clear", "sleep 5" & "startx" to the end of /home/kiosk/.bashrc if it isn't already
-grep -qxF "startx" /home/kiosk/.bashrc || echo "clear" >> /home/kiosk/.bashrc
-grep -qxF "startx" /home/kiosk/.bashrc || echo "sleep 5" >> /home/kiosk/.bashrc
-grep -qxF "startx" /home/kiosk/.bashrc || echo "startx" >> /home/kiosk/.bashrc
+# Create the .kioskstartx file
+cat > /home/kiosk/.kioskstartx <<EOL
+#!/bin/bash
+clear
+sleep 5
+$STARTXCMD
+EOL
+
+# Make .xinitrc owned by the kiosk user and executable
+chown kiosk:kiosk /home/kiosk/.kioskstartx
+chmod +x /home/kiosk/.kioskstartx
+
+# Add ".kioskstartx file to bashrc
+grep -qxF "source /home/kiosk/.kioskstartx" /home/kiosk/.bashrc || echo "source /home/kiosk/.kioskstartx" >> /home/kiosk/.bashrc
 
 # Create the .xinitrc file for the kiosk user
 cat > /home/kiosk/.xinitrc <<EOL
