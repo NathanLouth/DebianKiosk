@@ -7,6 +7,8 @@ URL="\"https://example.com\""
 CARD="0"
 DEVICE="0"
 SCREEN_TEARING=""
+SCREEN_RESOLUTION="1920x1080"
+NO_CURSOR=false
 
 # Parse command-line arguments
 while [[ $# -gt 0 ]]; do
@@ -130,7 +132,7 @@ cat > /home/kiosk/.xinitrc <<EOL
 
 sleep 3
 
-xrandr --output \$(xrandr | grep " connected " | awk '{ print\$1 }' | head -n 1) --mode 1920x1080
+xrandr --output \$(xrandr | grep " connected " | awk '{ print\$1 }' | head -n 1) --mode $SCREEN_RESOLUTION
 
 xset s off
 xset -dpms
