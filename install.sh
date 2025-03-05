@@ -50,8 +50,12 @@ while [[ $# -gt 0 ]]; do
             shift 2
             ;;
      
-       --screen)
-            #SCREEN_RES="$2"
+        --screen)
+            if ! [[ "$2" =~ ^[0-9]{3,4}x[0-9]{3,4}$ ]]; then
+                echo "Error: SCREEN must be a screen resolution eg 1920x1080" >&2
+                exit 1
+            fi
+            SCREEN_RESOLUTION="$2"
             shift 2
             ;;
             
