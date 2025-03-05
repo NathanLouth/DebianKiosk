@@ -224,7 +224,7 @@ If audio isn't working:
 
 ### Note: To drop to a terminal session press `Ctrl+Alt+F2`
 
-* To change the web page Chromium displays, modify the URL in the .xinitrc file (/home/kiosk/.xinitrc). By default the page is set to `https://example.com`
+* To change the web page Chromium displays, modify the URL in the .xinitrc file (/home/kiosk/.xinitrc). By default the page is set to `New Tab Page`
 
 * To make Chromium open using incognito mode or show the url bar you can edit the following chromium flags in the .xinitrc file (/home/kiosk/.xinitrc):
   `--kiosk`
