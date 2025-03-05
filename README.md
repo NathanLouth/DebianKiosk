@@ -142,13 +142,9 @@ The script supports the following optional command-line arguments for customizin
     --no-cursor
         Hides the mouse cursor 
 
-    --amd-st
-        Apply screen tearing fix for AMD GPU
-
-    --intel-st
-        Apply screen tearing fix for Intel GPU
+    --no-tearfree
+        Disable TearFree
         
-
 ## Example Usage
 
 Default setup:
@@ -187,10 +183,10 @@ Launch Chrome in kiosk mode with incognito and custom URL:
 ./install.sh --browser chrome --kiosk --incognito --url "https://example.org"
 ```
 
-Configure AMD GPU with screen tearing fix:
+Disable TearFree:
 
 ```bash
-./install.sh --browser chrome --amd-st --kiosk --screen 1920x1080
+./install.sh --browser chrome --no-tearfree --kiosk --screen 1920x1080
 ```
 
 Minimal setup without default URL & hidden cursor:
@@ -226,27 +222,7 @@ If audio isn't working:
    ```bash
    amixer -c 0 sset Master unmute
    ```
-### Screen Tearing
-If you are having screen tearing issues create file `/etc/X11/xorg.conf.d/20-intel.conf` and add the following contents:
-
-for Intel GPUs use:
-```bash
-Section "Device"
-  Identifier "Intel Graphics"
-  Driver "intel"
-  Option "TearFree" "true"
-EndSection
-```
-
-For AMD GPUs use:
-```bash
-Section "Device"
-  Identifier "AMD Graphics"
-  Driver "amdgpu"
-  Option "TearFree" "true"
-EndSection
-```
-
+   
 ## Additional Customizations
 
 ### Note: To drop to a terminal session press `Ctrl+Alt+F2`
