@@ -143,7 +143,7 @@ EOL
 chown kiosk:kiosk /home/kiosk/.kioskstartx
 chmod +x /home/kiosk/.kioskstartx
 
-# Add ".kioskstartx file to bashrc
+# Add ".kioskstartx file to bashrc (if not already)
 grep -qxF "source /home/kiosk/.kioskstartx" /home/kiosk/.bashrc || echo "source /home/kiosk/.kioskstartx" >> /home/kiosk/.bashrc
 
 # Create the .xinitrc file for the kiosk user
