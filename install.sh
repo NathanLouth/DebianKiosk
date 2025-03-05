@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Script Settings
+# Script Settings/Arguments
 BROWSER="chromium"
 BROWSER_FLAGS=""
 URL=" https://example.com"
