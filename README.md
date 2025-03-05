@@ -130,9 +130,6 @@ The script supports the following optional command-line arguments for customizin
     --url
         Specify the URL to display in kiosk mode. Encloses the URL in quotes.
 
-    --no-url
-        Don't use default url of https://example.com and open on the chrome(ium) new tab page
-
     --incognito
         launch browser using incognito mode
         
@@ -189,10 +186,10 @@ Disable TearFree:
 ./install.sh --browser chrome --no-tearfree --kiosk --screen 1920x1080
 ```
 
-Minimal setup without default URL & hidden cursor:
+Hidden cursor:
 
 ```bash
-./install.sh --nourl --no-cursor
+./install.sh --no-cursor
 ```
 
 ## Troubleshooting
