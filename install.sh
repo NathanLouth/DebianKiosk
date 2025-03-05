@@ -1,195 +1,100 @@
 #!/bin/bash
 
-# Default browser, audio setting & screen tearing fix
+# Default values
 BROWSER="chromium"
 BROWSER_FLAGS=""
-URL="\"https://example.com\""
+URL="https://example.com"
 CARD="0"
 DEVICE="0"
 SCREEN_TEARING=""
 
-# Parse command-line arguments
+# Argument parsing with validation
 while [[ $# -gt 0 ]]; do
     case "$1" in
-        --card)
-            if ! [[ "$2" =~ ^[0-9]+$ ]]; then
-                echo "Error: CARD must be a number" >&2
-                exit 1
-            fi
-            CARD="$2"
+        --card|--device)
+            [[ "$2" =~ ^[0-9]+$ ]] || exit 1
+            declare "$1=$2"
             shift 2
             ;;
-            
-        --device)
-            if ! [[ "$2" =~ ^[0-9]+$ ]]; then
-                echo "Error: DEVICE must be a number" >&2
-                exit 1
-            fi
-            DEVICE="$2"
-            shift 2
-            ;;
-            
         --browser)
-            if [[ ! "$2" =~ ^(chrome|chromium)$ ]]; then
-                echo "Invalid browser specified. Must be either 'chrome' or 'chromium'" >&2
-                exit 1
-            fi
-            # Set google-chrome-stable for chrome option
-            if [[ "$2" == "chrome" ]]; then
-                BROWSER="google-chrome-stable"
-            else
-                BROWSER="$2"
-            fi
+            [[ "$2" == @(chrome|chromium) ]] || exit 1
+            BROWSER=${2/google-chrome-stable/chrome}
             shift 2
             ;;
-            
-        --url)
-            URL="$2"
-            shift 2
-            ;;
-            
-        --nourl)
-            URL=""
-            shift
-            ;;
-            
-        --incognito)
-            BROWSER_FLAGS="$BROWSER_FLAGS --incognito"
-            shift
-            ;;
-        
-        --kiosk)
-            BROWSER_FLAGS="$BROWSER_FLAGS --kiosk"
-            shift
-            ;;
-
-        --amd-st)
-            SCREEN_TEARING="AMD"
-            shift
-            ;;
-        
-        --intel-st)
-            SCREEN_TEARING="Intel"
-            shift
-            ;;
-            
-        *)
-            echo "Usage: $0 [--card X] [--device X] [--browser X] [--url X] [--nourl] [--incognito] [--kiosk] [--amd-st] [--intel-st]" >&2
-            exit 1
-            ;;
+        --url) URL="$2"; shift 2;;
+        --nourl) URL=""; shift;;
+        --incognito|--kiosk) BROWSER_FLAGS+=" --$1"; shift;;
+        --amd-st|--intel-st) SCREEN_TEARING="${1:2}"; shift;;
+        *) echo "Invalid argument: $1" >&2; exit 1;;
     esac
 done
 
-# Comment out lines in /etc/apt/sources.list that include "cdrom:"
+# System configuration
 sed -i '/cdrom:/s/^[^#]/#/' /etc/apt/sources.list
-
-# Update the system
 apt update -y
 
+# Browser installation
 case $BROWSER in
-    google-chrome-stable)
-        # Install necessary packages (chrome)
-        apt install -y xorg xinit alsa-utils software-properties-common apt-transport-https ca-certificates curl
-        
-        # Import the Google Chrome GPG Key
-        curl -fSsL https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor | tee /usr/share/keyrings/google-chrome.gpg >> /dev/null
-        
-        # Add the Google Chrome Repository
-        echo deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main | tee /etc/apt/sources.list.d/google-chrome.list
-        
-        # Update the system
-        apt update -y
-        
-        # Install google-chrome-stable
-        apt install -y google-chrome-stable
+    chrome)
+        apt install -y xorg xinit alsa-utils software-properties-common \
+            apt-transport-https ca-certificates curl
+        curl -fsSL https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor > /usr/share/keyrings/google-chrome.gpg
+        echo deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main > /etc/apt/sources.list.d/google-chrome.list
+        apt update -y && apt install -y google-chrome-stable
         ;;
     chromium)
-        # Install necessary packages (chromium)
         apt install -y xorg xinit chromium alsa-utils
         ;;
 esac
 
-# Create the directory for the systemd service override
+# System setup
 mkdir -p /etc/systemd/system/getty@tty1.service.d/
-
-# Create the override.conf file
 cat > /etc/systemd/system/getty@tty1.service.d/override.conf <<EOL
 [Service]
 ExecStart=
 ExecStart=-/sbin/agetty --autologin kiosk --noclear %I \$TERM
 EOL
 
-# Add "clear", "sleep 5" & "startx" to the end of /home/kiosk/.bashrc if it isn't already
-grep -qxF "startx" /home/kiosk/.bashrc || echo "clear" >> /home/kiosk/.bashrc
-grep -qxF "startx" /home/kiosk/.bashrc || echo "sleep 5" >> /home/kiosk/.bashrc
-grep -qxF "startx" /home/kiosk/.bashrc || echo "startx" >> /home/kiosk/.bashrc
-
-# Create the .xinitrc file for the kiosk user
-cat > /home/kiosk/.xinitrc <<EOL
-#!/bin/bash
-
-sleep 3
-
-xrandr --output \$(xrandr | grep " connected " | awk '{ print\$1 }' | head -n 1) --mode 1920x1080
-
-xset s off
-xset -dpms
-xset s noblank
-
-sleep 2
-
-amixer -c $CARD sset Master 100%
-
-SCREEN_RESOLUTION=\$(xrandr | grep '*' | awk '{print \$1}')
-
-WIDTH=\$(echo \$SCREEN_RESOLUTION | cut -d 'x' -f 1)
-HEIGHT=\$(echo \$SCREEN_RESOLUTION | cut -d 'x' -f 2)
-
-$BROWSER $BROWSER_FLAGS --window-position=0,0 --window-size=\$WIDTH,\$HEIGHT $URL
-
-while pgrep -x "$BROWSER" > /dev/null; do
-    sleep 10
+for cmd in clear 'sleep 5' startx; do
+    grep -qxF "$cmd" /home/kiosk/.bashrc || echo "$cmd" >> /home/kiosk/.bashrc
 done
 
+# xinitrc setup
+cat > /home/kiosk/.xinitrc <<EOL
+#!/bin/bash
+sleep 3
+xrandr --output \$(xrandr | grep " connected " | awk '{print\$1}' | head -n 1) --mode 1920x1080
+xset s off && xset -dpms && xset s noblank
+sleep 2
+amixer -c $CARD sset Master 100%
+SCREEN_RESOLUTION=\$(xrandr | grep '*' | awk '{print \$1}')
+WIDTH=\$(echo \$SCREEN_RESOLUTION | cut -d 'x' -f 1)
+HEIGHT=\$(echo \$SCREEN_RESOLUTION | cut -d 'x' -f 2)
+$BROWSER $BROWSER_FLAGS --window-position=0,0 --window-size=\$WIDTH,\$HEIGHT $URL
+while pgrep -x "$BROWSER" > /dev/null; do sleep 10; done
 systemctl reboot
 EOL
 
-# Make asound.conf for audio settings
+# Audio configuration
 cat > /etc/asound.conf <<EOL
 defaults.pcm.card $CARD
 defaults.pcm.device $DEVICE
 EOL
 
-# Make .xinitrc owned by the kiosk user and executable
-chown kiosk:kiosk /home/kiosk/.xinitrc
-chmod +x /home/kiosk/.xinitrc
+# Permissions
+chown kiosk:kiosk /home/kiosk/.xinitrc && chmod +x /home/kiosk/.xinitrc
 
-# Apply Screen Tearing Fix
-if [ "$SCREEN_TEARING" == "AMD" ]; then
-cat > /etc/X11/xorg.conf.d/20-ScreenTearing.conf <<EOL
+# Screen tearing fix
+[[ -n $SCREEN_TEARING ]] && cat > /etc/X11/xorg.conf.d/20-ScreenTearing.conf <<EOL
 Section "Device"
-  Identifier "AMD Graphics"
-  Driver "amdgpu"
+  Identifier "${SCREEN_TEARING} Graphics"
+  Driver "${SCREEN_TEARING,,}"
   Option "TearFree" "true"
 EndSection
 EOL
-elif [ "$SCREEN_TEARING" == "Intel" ]; then
-cat > /etc/X11/xorg.conf.d/20-ScreenTearing.conf <<EOL
-Section "Device"
-  Identifier "Intel Graphics"
-  Driver "intel"
-  Option "TearFree" "true"
-EndSection
-EOL
-else
-    if [ -f "/etc/X11/xorg.conf.d/20-ScreenTearing.conf" ]; then
-        rm -f "/etc/X11/xorg.conf.d/20-ScreenTearing.conf"
-    fi
-fi
 
-# Update GRUB configuration
+# GRUB configuration
 sed -i 's/^GRUB_TIMEOUT=[0-9]*$/GRUB_TIMEOUT=0/' /etc/default/grub
 update-grub
 
-# Reboot system
 reboot
