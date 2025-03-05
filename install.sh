@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Default browser, audio setting & screen tearing fix
+# Script Settings
 BROWSER="chromium"
 BROWSER_FLAGS=""
 URL=" https://example.com"
