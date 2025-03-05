@@ -114,15 +114,15 @@ The script will complete the setup, automatically logging in as the kiosk user, 
 The script supports the following optional command-line arguments for customizing the kiosk setup:
 
     --card X
-        Set the audio card number. The value of X should be a number.
+        Set the audio card number. The value of X should be a number. (default is 0)
 
     --device X
-        Set the audio device number. The value of X should be a number.
+        Set the audio device number. The value of X should be a number. (default is 0)
 
     --browser X
         Specify which browser to use. Valid options are:
             chrome (will install Google Chrome)
-            chromium (will install Chromium)
+            chromium (will install Chromium) (default option)
     
     --screen
         Set the screen resolution e.g 1920x1080 (default is 1920x1080)
@@ -148,7 +148,6 @@ The script supports the following optional command-line arguments for customizin
     --intel-st
         Apply screen tearing fix for Intel GPU
         
-If no browser, audio card, or audio device is specified, they default to Chromium, 0, and 0, respectively.
 
 ## Example Usage
 
