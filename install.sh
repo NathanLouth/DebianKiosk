@@ -171,7 +171,7 @@ SCREEN_RESOLUTION=\$(xrandr | grep '*' | awk '{print \$1}')
 WIDTH=\$(echo \$SCREEN_RESOLUTION | cut -d 'x' -f 1)
 HEIGHT=\$(echo \$SCREEN_RESOLUTION | cut -d 'x' -f 2)
 
-$BROWSER $BROWSER_FLAGS --window-position=0,0 --window-size=\$WIDTH,\$HEIGHT$URL
+$BROWSER$BROWSER_FLAGS --window-position=0,0 --window-size=\$WIDTH,\$HEIGHT$URL
 
 while pgrep -x "$BROWSER" > /dev/null; do
     sleep 10
