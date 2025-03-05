@@ -6,7 +6,7 @@ BROWSER_FLAGS=""
 URL=" https://example.com"
 CARD="0"
 DEVICE="0"
-SCREEN_TEARING=""
+SCREEN_TEARING=" --set TearFree on"
 SCREEN_RESOLUTION="1920x1080"
 STARTXCMD="startx"
 
@@ -79,13 +79,13 @@ while [[ $# -gt 0 ]]; do
             shift
             ;;
 
-        --TearFree)
-            SCREEN_TEARING=" --set TearFree on"
+        --no-tearfree)
+            SCREEN_TEARING=""
             shift
             ;;
             
         *)
-            echo "Usage: $0 [--card X] [--device X] [--screen X] [--browser X] [--url X] [--nourl] [--incognito] [--kiosk] [--no-cursor] [--TearFree]" >&2
+            echo "Usage: $0 [--card X] [--device X] [--screen X] [--browser X] [--url X] [--nourl] [--incognito] [--kiosk] [--no-cursor] [--no-tearfree]" >&2
             exit 1
             ;;
     esac
