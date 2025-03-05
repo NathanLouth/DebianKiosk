@@ -74,23 +74,18 @@ while [[ $# -gt 0 ]]; do
             shift
             ;;
 
-        --amd-st)
-            SCREEN_TEARING="AMD"
-            shift
-            ;;
-        
-        --intel-st)
-            SCREEN_TEARING="Intel"
-            shift
-            ;;
-
         --no-cursor)
             STARTXCMD="startx -- -nocursor"
             shift
             ;;
+
+        --TearFree)
+            SCREEN_TEARING=" --set TearFree on"
+            shift
+            ;;
             
         *)
-            echo "Usage: $0 [--card X] [--device X] [--screen X] [--browser X] [--url X] [--nourl] [--incognito] [--kiosk] [--no-cursor] [--amd-st] [--intel-st]" >&2
+            echo "Usage: $0 [--card X] [--device X] [--screen X] [--browser X] [--url X] [--nourl] [--incognito] [--kiosk] [--no-cursor] [--TearFree]" >&2
             exit 1
             ;;
     esac
@@ -156,7 +151,7 @@ cat > /home/kiosk/.xinitrc <<EOL
 
 sleep 3
 
-xrandr --output \$(xrandr | grep " connected " | awk '{ print\$1 }' | head -n 1) --mode $SCREEN_RESOLUTION
+xrandr --output \$(xrandr | grep " connected " | awk '{ print\$1 }' | head -n 1) --mode $SCREEN_RESOLUTION$SCREEN_TEARING
 
 xset s off
 xset -dpms
@@ -189,29 +184,6 @@ EOL
 # Make .xinitrc owned by the kiosk user and executable
 chown kiosk:kiosk /home/kiosk/.xinitrc
 chmod +x /home/kiosk/.xinitrc
-
-# Apply Screen Tearing Fix
-if [ "$SCREEN_TEARING" == "AMD" ]; then
-cat > /etc/X11/xorg.conf.d/20-ScreenTearing.conf <<EOL
-Section "Device"
-  Identifier "AMD Graphics"
-  Driver "amdgpu"
-  Option "TearFree" "true"
-EndSection
-EOL
-elif [ "$SCREEN_TEARING" == "Intel" ]; then
-cat > /etc/X11/xorg.conf.d/20-ScreenTearing.conf <<EOL
-Section "Device"
-  Identifier "Intel Graphics"
-  Driver "intel"
-  Option "TearFree" "true"
-EndSection
-EOL
-else
-    if [ -f "/etc/X11/xorg.conf.d/20-ScreenTearing.conf" ]; then
-        rm -f "/etc/X11/xorg.conf.d/20-ScreenTearing.conf"
-    fi
-fi
 
 # Update GRUB configuration
 sed -i 's/^GRUB_TIMEOUT=[0-9]*$/GRUB_TIMEOUT=0/' /etc/default/grub
